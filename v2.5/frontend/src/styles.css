@@ -1,0 +1,131 @@
+@import "tailwindcss";
+@import "@fontsource/figtree/latin-400.css";
+@import "@fontsource/figtree/latin-500.css";
+@import "@fontsource/figtree/latin-600.css";
+@import "@fontsource/figtree/latin-700.css";
+@import "@fontsource/fraunces/latin-500.css";
+@import "@fontsource/fraunces/latin-600.css";
+@import "@fontsource/fraunces/latin-700.css";
+@import "@fontsource/fraunces/latin-500-italic.css";
+@import "@fontsource/fraunces/latin-600-italic.css";
+
+@theme {
+  --font-sans: "Figtree", "Avenir Next", "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
+
+  --color-bg: #000000;
+  --color-bg-deep: #000000;
+  --color-surface: #111111;
+  --color-surface-2: #1a1a1a;
+  --color-fg: #c6ff3a;
+  --color-muted: #8ed45a;
+  --color-faint: #5a9a38;
+  --color-ink: #000000;
+  --color-primary: #c6ff3a;
+  --color-primary-fg: #000000;
+  --color-border: #2f5a1c;
+  --color-ok: #b7d39a;
+  --color-danger: #f0a090;
+  --color-fury: #a33b2e;
+  --color-calm: #1f6b4e;
+  --color-mind: #215e92;
+  --color-body: #a85a18;
+  --color-chaos: #6d3d86;
+  --color-order: #8a7020;
+
+  --radius-card: 1.15rem;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-fg);
+    min-height: 100dvh;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-ink);
+  }
+}
+
+.dock {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 30;
+  height: calc(4.25rem + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-deep) 92%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.page-pad {
+  padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+}
+
+.page-pad-bar {
+  padding-bottom: calc(8.5rem + env(safe-area-inset-bottom));
+}
+
+.card-art {
+  aspect-ratio: 5 / 7;
+  background: var(--color-bg-deep);
+}
+
+.card-tile {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 22rem;
+}
+
+.above-dock {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(4.25rem + env(safe-area-inset-bottom));
+  z-index: 25;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
