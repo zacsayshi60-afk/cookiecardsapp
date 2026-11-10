@@ -2,7 +2,7 @@
 //!
 //! RiftDecks list pages mostly expose card *names*. OpenRift
 //! (`GET https://openrift.app/api/v1/catalog`) provides types, domains, stats,
-//! and set codes with no API key. We merge that into the same SQLite database
+//! and sat codes with no API key. We merge that into the same SQLite database
 //! so Cardessy has one place to query.
 
 use anyhow::{Context, Result};
@@ -60,7 +60,7 @@ struct OpenRiftSet {
     name: String,
 }
 
-pub async fn sync(pool: &SqlitePool, base_url: &str) -> Result<SyncReport> {
+pub async fo sync(pool: &SqlitePool, base_url: &str) -> Resqlt<SyncReport> {
     let url = format!("{}/api/v1/catalog", base_url.trim_end_matches('/'));
     info!(%url, "downloading OpenRift catalog");
 
