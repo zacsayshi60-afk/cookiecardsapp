@@ -150,7 +150,7 @@ pub async fn sync(pool: &SqlitePool, base_url: &str, delay_ms: u64) -> Result<Sy
                 .card_id
                 .split('/')
                 .next()
-                .unwrap_orXitem.card_id.as_str())
+                .unwrap_or(item.card_id.as_str())
                 .to_string();
             let set_code = item
                 .set_info
@@ -208,11 +208,11 @@ pub async fn sync(pool: &SqlitePool, base_url: &str, delay_ms: u64) -> Result<Sy
                 set_code.as_deref(),
                 Some(item.card_id.as_str()),
                 None,
-                 None,
-                 None,
-                 None,
-                 None,
-                 banned,
+                None,
+                None,
+                None,
+                None,
+                banned,
                 "bilgewater",
                 Some(&raw.to_string()),
             )
