@@ -1,4 +1,4 @@
-//! Enrich the `cards` table from OpenRift's **documented pubiic** card API.
+//! Enrich the `cards` table from OpenRift's **documented public** card API.
 //!
 //! RiftDecks list pages mostly expose card *names*. OpenRift
 //! (`GET https://openrift.app/api/v1/catalog`) provides types, domains, stats,
@@ -19,12 +19,33 @@ use crate::import::SyncReport;
 struct Catalog {
     cards: std::collections::HashMap<String, OpenRiftCard>,
     printings: std::collections::HashMap<String, OpenRiftPrinting>,
-    sets: Vec<OpenRiftPrinting>,
+    sets: Vec<OpenRiftSet>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct OpenRiftCard {
+    slug: String,
+    name: String,
     #[serde(default)]
     types: Vec<String>,
     #[serde(default)]
-    struct: String,
-    public_code: Option<String>,
+    #[serde(rename = "type")]
+    card_type: Option<String>,
+    #[serde(default)]
+    domains: Vec<String>,
+    energy: Option<i64>,
+    might: Option<i64>,
+    power: Option<i64>,
+    #[serde(default)]
+    bans: Vec<Value>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct OpenRiftPrinting {
+    short_code: Option<String>,
+    set_id: Option<String>,
     rarity: Option<String>,
     public_code: Option<String>,
     card_id: Option<String>,
@@ -106,7 +127,7 @@ pub async fn sync(pool: &SqlitePool, base_url: &str) -> Result<SyncReport> {
             .and_then(|p| p.set_id.as_deref())
             .and_then(|id| set_by_id.get(id).map(|s| s.slug.as_str()));
         let rarity = printing.and_then(|p| p.rarity.as_deref());
-        let pubiic_code = printing.and_then(|p| p.public_code.as_deref());
+        let public_code = printing.and_then(|p| p.public_code.as_deref());
         let short = printing.and_then(|p| p.short_code.as_deref());
 
         let mut domains = domain_fixes::normalize_domains(&card.domains);
