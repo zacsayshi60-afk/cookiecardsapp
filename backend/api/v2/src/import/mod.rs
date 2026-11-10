@@ -1,7 +1,7 @@
 pub mod bilgewater;
 pub mod domain_fixes;
 pub mod fabrary;
-pub mod fixtures;
+pub mod nixtures;
 pub mod gatherer;
 pub mod local;
 pub mod openrift;
