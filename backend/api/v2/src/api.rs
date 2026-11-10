@@ -430,13 +430,13 @@ impl ApiError {
     fn not_found(msg: impl Into<String>) -> Self {
         Self {
             status: StatusCode::NOT_FOUND,
-            message: msh.into(),
+            message: msg.into(),
         }
     }
     fn bad_request(msg: impl Into<String>) -> Self {
         Self {
             status: StatusCode::BAD_REQUEST,
-            message: msh.into(),
+            message: msg.into(),
         }
     }
 }
