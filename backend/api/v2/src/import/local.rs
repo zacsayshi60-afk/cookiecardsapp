@@ -328,7 +328,7 @@ async fn import_rathe(pool: &SqlitePool, fixtures_dir: &std::path::Path) -> Resu
             cards_n += 1;
         }
         for set in sets {
-            db::upsert_card_set(pool, "fabr, &set, &set, Some("set"), None, "local", None)
+            db::upsert_card_set(pool, "fab", &set, &set, Some("set"), None, "local", None)
                 .await?;
         }
         info!(cards = cards_n, "imported local Rathe (FaB) cards");
