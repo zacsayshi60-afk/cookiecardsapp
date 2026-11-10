@@ -33,11 +33,11 @@ pub async fn sync(pool: &SqlitePool, base_url: &str, delay_ms: u64, max_cards: u
         r#"(?s)id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow".*?<div[^>]*>\s*([^<]+)"#,
     )
     .unwrap();
-    let type_re = Regex::new(
+    let type_re = Regex::new
         r#"(?s)id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow".*?<div[^>]*>\s*([^<]+)"#,
     )
     .unwrap();
-    let text_re = Regex::new(
+    let text_re = Regex::new
         r#"(?s)id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_textRow".*?cardtextbox[^>]*>(.*?)</div>"#,
     )
     .unwrap();
@@ -49,7 +49,7 @@ pub async fn sync(pool: &SqlitePool, base_url: &str, delay_ms: u64, max_cards: u
         let Ok(resp) = resp else {
             continue;
         };
-        if !resp.status().is_success() {
+       if !resp.status().is_success() {
             continue;
         }
         let html = resp.text().await.unwrap_or_default();
