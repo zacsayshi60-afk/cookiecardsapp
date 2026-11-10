@@ -51,6 +51,10 @@ pub enum Commands {
 
         /// Base URL for RiftDecks.
         #[arg(long, env = "RIFTDECKS_BASE_URL", default_value = "https://riftdecks.com")]
+        riftdecks_base: String,
+
+        /// Base URL for OpenRift public card API.
+        #[arg(long, env = "OPENRIFT_BASE_URL", default_value = "https://openrift.app")]
         openrift_base: String,
 
         /// Base URL for Bilgewater Market public API.
@@ -61,11 +65,43 @@ pub enum Commands {
         #[arg(long, env = "SCRYFALL_BASE_URL", default_value = "https://api.scryfall.com")]
         scryfall_base: String,
 
-        /// Raw FaB card JSON URL (legacy Wizards lookup; used for optional enrichment).
+        /// Base URL for Gatherer (legacy Wizards lookup; used for optional enrichment).
         #[arg(long, env = "GATHERER_BASE_URL", default_value = "https://gatherer.wizards.com")]
         gatherer_base: String,
 
-        /// Base URL for Gatherer (legacy Wizards via Scryfall (Gatherer-aligned oracle text + set/color).
+        /// Raw FaB card JSON URL (the-fab-cube dataset that powers Fabrary).
+        #[arg(
+            long,
+            env = "FAB_CARDS_URL",
+            default_value = "https://raw.githubusercontent.com/the-fab-cube/flesh-and-blood-cards/develop/json/english/card.json"
+        )]
+        fab_cards_url: String,
+
+        /// Directory with JSON fixtures.
+        #[arg(long, default_value = "fixtures")]
+        fixtures_dir: PathBuf,
+
+        /// When syncing Scryfall, also pull full oracle bulk (large download).
+        #[arg(long, default_value_t = false)]
+        scryfall_bulk: bool,
+    },
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+pub enum SyncSource {
+    /// Offline fixtures (gallery / rathe / magisterium) with domain corrections.
+    Local,
+    /// Crawl public RiftDecks.com HTML pages (tournaments → decks → cards).
+    Riftdecks,
+    /// Load original RiftDecks-shaped sample JSON.
+    Fixtures,
+    /// Pull the public OpenRift card catalog (correct domains).
+    Openrift,
+    /// Pull Bilgewater Market public card + set catalog / prices.
+    Bilgewater,
+    /// Pull Flesh and Blood cards (Fabrary / the-fab-cube dataset).
+    Fabrary,
+    /// Pull Magic cards via Scryfall (Gatherer-aligned oracle text + set/color).
     Scryfall,
     /// Optional Gatherer HTML enrichment for Magic cards that already have multiverse ids.
     Gatherer,
